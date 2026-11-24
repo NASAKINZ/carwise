@@ -1,0 +1,1 @@
+{"name":"carwise-ai-backend","private":true,"version":"1.0.0","engines":{"node":">=22"},"scripts":{"start":"node --env-file-if-exists=.env server.cjs"}}
