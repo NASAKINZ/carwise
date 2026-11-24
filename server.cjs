@@ -53,7 +53,9 @@ async function callAI(c,question,config,fetcher){
  return {source:provider,summary:parsed.summary,actions:[...new Set(parsed.actionIds)].map(id=>({id,...A.actions[id]})),service:plan.service,sources:plan.sources,model};
 }
 function createServer(config={},fetcher=globalThis.fetch){
- const origins=new Set((config.origins||'http://127.0.0.1:4174,http://localhost:4174').split(',').map(x=>x.trim()).filter(Boolean));
+ // Allowed browser origins: local dev, the GitHub Pages site, this service's own public URL
+ // (Render sets RENDER_EXTERNAL_URL), plus anything extra in ALLOWED_ORIGINS.
+ const origins=new Set(['http://127.0.0.1:4174','http://localhost:4174','https://nasakinz.github.io',config.selfOrigin||'',...String(config.origins||'').split(',')].map(x=>x.trim().replace(/\/+$/,'')).filter(Boolean));
  let windowAt=Date.now(),calls=0,busy=0;
  const limit=config.limit||15;
  const send=(res,status,data)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8'});res.end(JSON.stringify(data))};
@@ -95,7 +97,7 @@ function createServer(config={},fetcher=globalThis.fetch){
 if(require.main===module){
  const provider=process.env.AI_PROVIDER||'gemini';
  if(!['gemini','openai'].includes(provider))throw Error('AI_PROVIDER must be gemini or openai');
- const config={provider,key:provider==='gemini'?process.env.GEMINI_API_KEY:process.env.OPENAI_API_KEY,token:process.env.CARWISE_ACCESS_TOKEN,model:provider==='gemini'?(process.env.GEMINI_MODEL||'gemini-3.5-flash-lite'):(process.env.OPENAI_MODEL||'gpt-4.1-mini'),origins:process.env.ALLOWED_ORIGINS};
+ const config={provider,key:provider==='gemini'?process.env.GEMINI_API_KEY:process.env.OPENAI_API_KEY,token:process.env.CARWISE_ACCESS_TOKEN,model:provider==='gemini'?(process.env.GEMINI_MODEL||'gemini-3.5-flash-lite'):(process.env.OPENAI_MODEL||'gpt-4.1-mini'),origins:process.env.ALLOWED_ORIGINS,selfOrigin:process.env.RENDER_EXTERNAL_URL};
  const port=Number(process.env.PORT||4174),host=process.env.HOST||'127.0.0.1';
  const server=createServer(config);server.requestTimeout=30000;server.headersTimeout=10000;
  server.listen(port,host,()=>console.log(`Carwise: http://${host}:${port} | AI ${config.key&&config.token?.length>=32?'configured':'not configured; see README.md'}`));
