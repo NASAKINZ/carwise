@@ -1,0 +1,19 @@
+TunerGate update - 24 November 2026
+Open: http://127.0.0.1:4174/#parts-recommend
+Standalone: outputs/Carwise.html
+
+Added 8 simulated products; catalog now has 24.
+New TH/EN recommendation workspace, part detail, cart, order list and order detail.
+Global language selection is saved locally. Legacy Carwise screening, help, AI text and some older catalog text are still Thai; this is not a claim of complete site-wide localization.
+Recommendations filter vehicle model, category, daily/sport usage, quantity, stock and total budget. They compare air/sea shipping and rank by total cost, upper delivery estimate, or min-max 50/50 balanced score. Each result is a separate alternative, not a combined bundle.
+Download TXT or use Web Share/clipboard. These controls prepare a summary; they do not send a message automatically. No customer recipient service or live checkout is connected.
+Existing backend secret files were not changed or copied into public output.
+
+Validation:
+- Recommendation model/stock/budget/invalid inputs/shipping goal/total checks: passed.
+- Catalog/cart/order tests: 11 passed.
+- Existing A* suite: 4 passed, 1788 scenarios checked.
+- Browser: Thai/English switch retains form and result, budget zero empty result, budget 3000 results, English cart verified.
+- Browser download event tool hung; actual downloaded file was not confirmed.
+- Mobile layout uses responsive CSS; no mobile viewport QA performed.
+- Local sources and github-pages files updated. Not published to remote GitHub.

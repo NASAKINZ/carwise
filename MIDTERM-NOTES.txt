@@ -1,0 +1,16 @@
+TUNERSGATE MIDNIGHT / 13 October 2026
+
+เพิ่มธีมม่วงดำแยกจาก Carwise พร้อมแสงเคลื่อนไหว ปุ่มปิดเอฟเฟกต์ และ reduced-motion
+เพิ่มรายการโปรด เปรียบเทียบ 3 ชิ้น รถประจำตัว งบ สต็อก เรียงราคา และเทียบขนส่ง
+เพิ่ม Search Lab ที่ #parts-search: A* tree search จริง + g/h/f + trace ทีละขั้น
+มี 3 เป้าหมายและข้อจำกัดงบ พร้อมผลครบ 12 เส้นทาง/สินค้ามีสต็อก
+Search Lab มีสถานการณ์ราคา/เวลาคงที่แยกจากตะกร้า อ่านคำอธิบายหน้าเว็บก่อนเทียบตัวเลข
+
+ทดสอบตรรกะ 31 ข้อผ่าน; เทียบ A* กับ exhaustive oracle 552 กรณีผ่าน
+รายงานแยกข้อสงสัยออกจากผลวินิจฉัยช่าง และระบุทุกค่าธุรกิจว่าเป็นข้อมูลจำลอง
+ตรวจเว็บจริง Search Lab ทั้ง 3 เป้าหมาย trace งบไม่พอ และสลับธีม Carwise ผ่าน; ตรวจมือถือไม่พบ horizontal overflow; ไม่มี console errors ในรอบนี้
+เผยแพร่ GitHub Pages สำเร็จ 13 ต.ค. 2569 commit d0b9b4cb5773d62b6a4fa92abc52cc06441f518d
+
+ชุดส่งงาน: outputs/Carwise-Midterm-Submission.zip
+รายงาน: outputs/Carwise-Midterm/Report.html และ Report.txt
+ผลลัพธ์ครบในโฟลเดอร์ results ภายในชุดส่งงาน

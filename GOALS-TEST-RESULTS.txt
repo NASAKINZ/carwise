@@ -1,0 +1,28 @@
+Carwise — Service Goals verification, 2026-10-12
+
+Automated: 17/17 passed (9 existing screening tests + 8 goal/export/import tests).
+- Cost chooses A (300 THB / 120 minutes).
+- Time chooses B (700 THB / 30 minutes).
+- Balanced chooses C (450 THB / 60 minutes; normalized score 0.354).
+- Safety yes/unknown suppresses all service rankings.
+- Invalid/missing estimates and ineligible options are excluded.
+- Constant ranges, ties and unit changes are handled.
+- Legacy/unrecognized goal values default to balanced.
+- Actual text report function contains the chosen goal and sample ranking.
+- Actual JSON import function preserves valid goals and defaults old files.
+
+Browser verification on localhost:
+- Intake selection survives into the finished case.
+- Safety stop displays chosen goal but no ranked services.
+- Demo case displays the three goals and sample comparison.
+- Switching cost/time/balanced changes the leading option correctly.
+- Selected goal and ranking survive reload.
+- Mechanic view displays the user's selected goal.
+- Mobile viewport 390 x 844: page has no horizontal overflow; table scrolls inside its container.
+- No console errors observed during tested flows.
+
+Limitations:
+- Prices and service times are illustrative, not live provider data.
+- No GitHub upload was performed for this version.
+- Direct file:// browser automation is restricted; UI testing used a local HTTP preview.
+- Download click-to-disk and print rendering were not re-tested in this change.

@@ -1,0 +1,11 @@
+CARWISE EV + AI — 14 October 2026
+
+New source: ev.js, advice.js, assistant-ui.js
+Backend and setup: ../carwise-backend/README.md
+
+EV has four symptom groups. Vehicle type is preserved in case JSON and TXT export.
+Services EV-A/B/C are illustrative; they are not verified garages or actual quotes.
+AI uses an optional Node backend and OpenAI Responses API with explicit consent.
+No OpenAI API key is present in this package. Do not put one in a public website.
+The older Midterm PDF/source extracts describe the earlier version, before this EV/AI addition.
+Live AI output has not been verified without an API key. Provider integration tests use a mock.
