@@ -1,7 +1,7 @@
 'use strict';
 let aiAccessToken='',aiBusy=false;
 const aiReplies=new Map();
-function aiOrigin(){return read('carwise-ai-origin','')|| (location.protocol==='http:'||location.protocol==='https:'?location.origin:'');}
+function aiOrigin(){const saved=read('carwise-ai-origin',''); if(saved && saved!=='https://nasakinz.github.io')return saved; if(location.hostname==='nasakinz.github.io')return 'https://carwise-ai-015o.onrender.com'; return ['http:','https:'].includes(location.protocol)?location.origin:'';}
 function adviceCards(cards){return `<div class="advice-grid">${cards.map(a=>`<div class="advice-card"><h4>${esc(a.title)}</h4><p>${esc(a.text)}</p></div>`).join('')}</div>`;}
 function assistantPanel(c,review=false){
  const plan=CarwiseAdvice.plan(c),saved=aiReplies.get(c.id);
@@ -19,7 +19,7 @@ function assistantSettings(){
   try{localStorage.setItem('carwise-ai-origin',origin)}catch{}
   if(token)aiAccessToken=token;
   e.target.elements.token.value='';health.textContent='กำลังตรวจสถานะ...';
-  try{const r=await fetch(origin+'/api/health',{signal:AbortSignal.timeout(5000)});if(!r.ok)throw Error();const s=await r.json();if(!['OpenAI','Gemini'].includes(s.provider)||s.ok!==true)throw Error();health.textContent=s.provider+' · '+s.model+' · '+(s.aiReady?'หลังบ้านตั้งค่า AI แล้ว · ยังต้องทดสอบคำขอจากเคสจริงเพื่อยืนยันเครดิตและสิทธิ์ API':'เชื่อมหลังบ้านได้ แต่ยังไม่ได้ตั้ง API key หรือรหัสเข้าใช้ฝั่งเซิร์ฟเวอร์');}
+  try{const r=await fetch(origin+'/api/health',{signal:AbortSignal.timeout(90000)});if(!r.ok)throw Error();const s=await r.json();if(!['OpenAI','Gemini'].includes(s.provider)||s.ok!==true)throw Error();health.textContent=s.provider+' · '+s.model+' · '+(s.aiReady?'หลังบ้านตั้งค่า AI แล้ว · ยังต้องทดสอบคำขอจากเคสจริงเพื่อยืนยันเครดิตและสิทธิ์ API':'เชื่อมหลังบ้านได้ แต่ยังไม่ได้ตั้ง API key หรือรหัสเข้าใช้ฝั่งเซิร์ฟเวอร์');}
   catch{health.textContent='เชื่อมหลังบ้านไม่ได้ ตรวจ URL ว่าเซิร์ฟเวอร์เปิดอยู่และอนุญาตต้นทางเว็บนี้';}
  });
  $('#ai-clear').addEventListener('click',()=>{aiAccessToken='';aiReplies.clear();try{localStorage.removeItem('carwise-ai-origin')}catch{}assistantSettings();});
@@ -37,7 +37,7 @@ function bindAssistant(){
   aiBusy=true;const button=form.querySelector('button[type=submit]');button.disabled=true;target.textContent='กำลังขอคำอธิบายจาก AI...';
   try{
    const payload={consent:true,question,case:{vehicle:c.vehicle,year:c.year||'',vehicleType:C.vehicleTypeFor(c),category:c.category,safety:c.safety,serviceGoal:G.goalFor(c.serviceGoal),context:c.context||'',answers:c.answers.map(a=>({id:a.id,answer:a.answer}))}};
-   const r=await fetch(aiOrigin()+'/api/advice',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+aiAccessToken},body:JSON.stringify(payload),signal:AbortSignal.timeout(30000)});
+   const r=await fetch(aiOrigin()+'/api/advice',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+aiAccessToken},body:JSON.stringify(payload),signal:AbortSignal.timeout(90000)});
    const data=await r.json();if(!r.ok)throw Error(data.error||'AI ไม่พร้อม');if(!['openai','gemini','safety-rule'].includes(data.source)||typeof data.summary!=='string'||!Array.isArray(data.actions))throw Error('รูปแบบคำตอบไม่ถูกต้อง');
    aiReplies.set(c.id,data);target.innerHTML=aiReplyHTML(data);
   }catch(error){target.textContent='ยังไม่ได้รับคำตอบ AI: '+(error.name==='TimeoutError'?'หมดเวลารอ':error.message)+ ' · ใช้คำแนะนำตามกฎด้านบนได้';}
